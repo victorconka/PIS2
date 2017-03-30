@@ -1,27 +1,71 @@
 package polinomio;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Polinomio 
 {
+	// HashMap<Exponente , Coeficiente>
+	HashMap<Integer, Double> polinomios = new HashMap<Integer, Double>();
 
-	double coeficiente; 
-	int exponente;
 
 	public Polinomio()
 	{
-
+		
 	}
 	
-	public double getCoeficiente() {
-		return coeficiente;
+	public HashMap<Integer, Double> getPolinomio() {
+		return polinomios;
 	}
-	public void setCoeficiente(double coeficiente) {
-		this.coeficiente = coeficiente;
+
+
+	public void setMonomio(int exponente, double coeficiente) 
+	{
+		if (polinomios.get(exponente) != null)
+		{
+			double coefGet = polinomios.get(exponente);
+			coefGet += coeficiente;
+			polinomios.put(exponente, coefGet);
+		}
+		else
+		{
+			polinomios.put(exponente, coeficiente);
+		}
+		
 	}
-	public int getExponente() {
-		return exponente;
+	
+	public Polinomio sumaPolinomio(Polinomio PolinomioASumar)
+	{
+		ArrayList<Integer> exponentesVisitados = new ArrayList<Integer>();
+		
+		Polinomio resultado = new Polinomio();
+		
+		HashMap<Integer, Double> hasPolinomioASumar = PolinomioASumar.getPolinomio();
+		
+		
+		
+		
+		//resultado.setMonomio(exponente, coeficiente);
+		
+		
+		return resultado;
 	}
-	public void setExponente(int exponente) {
-		this.exponente = exponente;
+	
+	public void multiplicaPolinomio()
+	{
+		
+	}
+	
+	public void dividePolinomio()
+	{
+		
+	}
+	
+	@Override
+	public String toString()
+	{
+		System.out.println(polinomios.values());
+		return "a";
 	}
 
 }
