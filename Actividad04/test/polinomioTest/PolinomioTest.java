@@ -13,14 +13,16 @@ public class PolinomioTest extends TestCase {
 	  polinomioA.setMonomio(0,3);
 	  polinomioA.setMonomio(0,-1);
 	  polinomioA.setMonomio(1,9);
-	  System.out.println(polinomioA);
+	 // System.out.println(polinomioA);
 	  
 	  Polinomio polinomioB = new Polinomio();
 	  polinomioB.setMonomio(0,3);
 	  polinomioB.setMonomio(1,-1);
 	  polinomioB.setMonomio(2,9);
-	  System.out.println(polinomioB);
+	  //System.out.println(polinomioB);
 	  
+	  Polinomio polinomioSuma = polinomioA.sumaPolinomio(polinomioB);
+	  System.out.println(polinomioSuma);
 	  //assertEquals(resultadoEsperado, resultadoReal, 0.01);
   }
 	
