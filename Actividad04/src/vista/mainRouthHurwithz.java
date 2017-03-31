@@ -19,12 +19,15 @@ public class mainRouthHurwithz {
 		do {
 			try {
 				gradoMaximo = Integer.parseInt(bf.readLine());
+				if (gradoMaximo < 0) {
+					System.out.println("ERROR: Debe introducir un número entero mayor que 0");
+				}
 			} catch (NumberFormatException e) {
 				System.out.println("ERROR: Debe introducir un número entero menor o igual que 100");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} while (gradoMaximo > 100);
+		} while (gradoMaximo > 100 || gradoMaximo < 0);
 		
 		coeficientes = new double[gradoMaximo + 1];
 		
@@ -34,7 +37,7 @@ public class mainRouthHurwithz {
 				coeficientes[coeficientesLeidos] = Double.parseDouble(bf.readLine());
 				coeficientesLeidos++;
 			} catch (NumberFormatException e) {
-				System.out.println("ERROR: DEbe introducir un número real");
+				System.out.println("ERROR: Debe introducir un número real");
 				coeficientesLeidos--;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -42,7 +45,7 @@ public class mainRouthHurwithz {
 		} while (coeficientesLeidos < (gradoMaximo + 1));
 		
 		rh = new RouthHurwitz(gradoMaximo, coeficientes);
-		rh.ComprobarSistema();
+		rh.comprobarSistema();
 		
 	}
 
