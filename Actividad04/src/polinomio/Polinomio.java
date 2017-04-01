@@ -28,13 +28,14 @@ public class Polinomio
 
 	public void setMonomio(int exponente, double coeficiente) 
 	{
+		// Si el exponente existe, realizar cuenta.
 		if (polinomio.get(exponente) != null)
 		{
 			double coefGet = polinomio.get(exponente);
 			coefGet += coeficiente;
 			polinomio.put(exponente, coefGet);
 		}
-		else
+		else // Si el exponente no existe, dar de alta
 		{
 			polinomio.put(exponente, coeficiente);
 		}
@@ -77,32 +78,49 @@ public class Polinomio
 	@Override
 	public String toString()
 	{
+		DecimalFormat formatoDecimalCeros = new DecimalFormat();
+		formatoDecimalCeros.setDecimalSeparatorAlwaysShown(false);
+		
 		String resultado ="";
-		for (Entry<Integer, Double> mapaIterado : polinomio.entrySet()) {
+		int contadorMonomios=0;
+		for (Entry<Integer, Double> mapaIterado : polinomio.entrySet()) 
+		{
+			contadorMonomios++;
+			// Si el coeficiente es 0, no se muestra
+			if (mapaIterado.getValue() == 0)
+				continue;
 			
-			DecimalFormat formatoDecimalCeros = new DecimalFormat();
-			formatoDecimalCeros.setDecimalSeparatorAlwaysShown(false);
+			//Eliminar formato Double si es necesario
+			String coeficienteLeido=formatoDecimalCeros.format(mapaIterado.getValue());
 			
-			String coeficienteLeido = "";
-			if (mapaIterado.getValue() < 0)
-				coeficienteLeido = "-" + formatoDecimalCeros.format(mapaIterado.getValue());
-			else
-				coeficienteLeido = "+" +  formatoDecimalCeros.format(mapaIterado.getValue());
 			
+			//Elimina el 1 deL "1X"
+			if ((mapaIterado.getKey() == 1 && mapaIterado.getValue() == 1))
+				coeficienteLeido = "";
+
+			//Elimina el 1 deL "-1X"
+			if ((mapaIterado.getKey() == 1 && mapaIterado.getValue() == -1))
+				coeficienteLeido = "-";
+			
+			//Comprobar si el coeficiente es negativo o no para mostrar su signo.
+			//Si no es el monomio de mayor grado, mostrar signo +
+			if (polinomio.size() != contadorMonomios && mapaIterado.getValue() > 0)
+					coeficienteLeido = "+" +  coeficienteLeido;
+			
+			// Comprobar el exponente para mostrar X o no
 			switch (mapaIterado.getKey()) {
-				case 0:
+				case 0: // Exponente 0 -> Sin "X"
 					resultado = coeficienteLeido  + resultado;
 					break;
-				case 1:
+				case 1: // Exponente 1 -> Con "X"
 					resultado = coeficienteLeido + "X" + resultado;
 					break;
-				default:
+				default: // Exponente > 1 -> Con "X^"
 					resultado = coeficienteLeido + "X^" + mapaIterado.getKey()  + resultado;
 					break;
 			}
 			
-				
-		    
+		
 		}
 		
 		System.out.println(polinomio.values());
