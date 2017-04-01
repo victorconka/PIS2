@@ -54,20 +54,40 @@ public class Polinomio
 		for (Entry<Integer, Double> mapaIterado : hashPolinomioASumar.entrySet()) {
 			
 			resultado.setMonomio(mapaIterado.getKey(),  mapaIterado.getValue()); 
-		    //System.out.println("clave=" + mapaIterado.getKey() + ", valor=" + mapaIterado.getValue());
 		}
-		
-		//resultado.setMonomio(exponente, coeficiente);
-		
 		
 		return resultado;
 	}
 	
 
 	
-	public void multiplicaPolinomio()
+	public Polinomio multiplicaPolinomio(Polinomio polinomioAMultiplicar)
 	{
+		Polinomio resultado = new Polinomio();
 		
+		HashMap<Integer, Double> hashPolinomioAMultiplicar = polinomioAMultiplicar.getPolinomio(); // POLINOMIO DE ENTRADA
+		
+		//resultado.setPolinomio(this.polinomio); // PUTALL DEL POLINOMIO DE LA CLASE
+		
+// EJEMPLO:		
+//		   -3x2  +  2x4  -  8  -  x3   +  5x			FACTOR ARRIBA
+//
+//		   *					        -5x4			FACTOR ABAJO
+//		   _________________________________
+//		   15x6 - 10x8 + 40x4 + 5 x7 - 25x5				RESULTADO
+		
+		for (Entry<Integer, Double> mapaIteradoAbajo : hashPolinomioAMultiplicar.entrySet()) 
+		{
+			for (Entry<Integer, Double> mapaIteradoArriba : polinomio.entrySet()) 
+			{
+				Double numMultiplicado = mapaIteradoAbajo.getValue() * mapaIteradoArriba.getValue();
+				int exponenteSumado = mapaIteradoAbajo.getKey() + mapaIteradoArriba.getKey();
+				resultado.setMonomio(exponenteSumado,  numMultiplicado); 
+			}
+			//resultado.setMonomio(mapaIterado.getKey(),  mapaIterado.getValue()); 
+		}
+		
+		return resultado;
 	}
 	
 	public void dividePolinomio()
@@ -123,7 +143,6 @@ public class Polinomio
 		
 		}
 		
-		System.out.println(polinomio.values());
 		return resultado;
 	}
 
