@@ -3,6 +3,7 @@ package polinomio;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.function.BinaryOperator;
 
@@ -13,10 +14,6 @@ public class Polinomio
 	HashMap<Integer, Double> polinomio = new HashMap<Integer, Double>();
 
 
-	public Polinomio()
-	{
-		
-	}
 	
 	public HashMap<Integer, Double> getPolinomio() {
 		return polinomio;
@@ -40,6 +37,18 @@ public class Polinomio
 			polinomio.put(exponente, coeficiente);
 		}
 		
+	}
+	// Obtener valor de una clave
+	public Double getMonomio(int key) 
+	{
+		return polinomio.get(key);
+	}
+	
+
+	// Put directo a monomio
+	public void putMonomio(int exponente, Double coeficiente)
+	{
+		polinomio.put(exponente, coeficiente);
 	}
 	
 	public Polinomio sumaPolinomio(Polinomio polinomioASumar)
@@ -67,8 +76,6 @@ public class Polinomio
 		
 		HashMap<Integer, Double> hashPolinomioAMultiplicar = polinomioAMultiplicar.getPolinomio(); // POLINOMIO DE ENTRADA
 		
-		//resultado.setPolinomio(this.polinomio); // PUTALL DEL POLINOMIO DE LA CLASE
-		
 // EJEMPLO:		
 //		   -3x2  +  2x4  -  8  -  x3   +  5x			FACTOR ARRIBA
 //
@@ -81,18 +88,69 @@ public class Polinomio
 			for (Entry<Integer, Double> mapaIteradoArriba : polinomio.entrySet()) 
 			{
 				Double numMultiplicado = mapaIteradoAbajo.getValue() * mapaIteradoArriba.getValue();
-				int exponenteSumado = mapaIteradoAbajo.getKey() + mapaIteradoArriba.getKey();
+				int exponenteSumado    = mapaIteradoAbajo.getKey()   + mapaIteradoArriba.getKey();
 				resultado.setMonomio(exponenteSumado,  numMultiplicado); 
 			}
-			//resultado.setMonomio(mapaIterado.getKey(),  mapaIterado.getValue()); 
 		}
 		
 		return resultado;
 	}
-	
-	public void dividePolinomio()
+	// Explicacion ruffini: http://www.vitutor.com/ab/p/a_8.html
+	public ArrayList dividePolinomio(Polinomio polinomioADividir)
 	{
+		Polinomio resultado = new Polinomio();
 		
+		
+		if (polinomioADividir.getMonomio(1) > 1)
+		{
+			Double coeficienteX = polinomioADividir.getMonomio(1) / polinomioADividir.getMonomio(1);
+			Double coeficienteIndependiente = polinomioADividir.getMonomio(0) / polinomioADividir.getMonomio(1);
+			polinomioADividir.putMonomio(0, coeficienteIndependiente);
+			polinomioADividir.putMonomio(1, coeficienteX);
+		}
+		
+		// Descubre ultima Key para tratar de LAST a FIRST
+		int ultimaKeyMapa = 0;
+		for (Entry<Integer, Double> mapaIterado : polinomio.entrySet()) 
+		{
+			ultimaKeyMapa = mapaIterado.getKey();
+		}
+		
+		Double terminoIndependiente = polinomioADividir.polinomio.get(0);  			// Obtener termino independiente
+		Double terminoIndependienteOpuesto = terminoIndependiente * (-1);			// Obtener contrario
+		
+		// Primera operacion de ruffini 
+		Double resultadoOperacion = terminoIndependienteOpuesto * polinomio.get(ultimaKeyMapa); 
+		
+		//System.out.println("Primera: " + polinomio.get(ultimaKeyMapa) + " Exponente: " + (ultimaKeyMapa-1) );
+
+		resultado.setMonomio(ultimaKeyMapa-1, polinomio.get(ultimaKeyMapa)); 					// Monta Coeficiente
+		
+		// Bulce ruffini
+		for(int x = ultimaKeyMapa-1; x >= 0; x--)
+		{
+			// Si es nulo, es decir que no hay clave, no se suma
+			if (polinomio.get(x) != null)
+				resultadoOperacion = resultadoOperacion + polinomio.get(x);
+			
+			//System.out.println("Resultado operacion: " + resultadoOperacion + " Exponente: " + (x-1));
+			
+			// Si se llega al final, no se multiplica mas
+			if (x != 0)
+			{
+				resultado.setMonomio(x-1, resultadoOperacion); 									// Monta Coeficiente
+				resultadoOperacion = resultadoOperacion * terminoIndependienteOpuesto;
+				
+			}
+		}
+		
+		ArrayList resultadoFinal = new ArrayList();
+		
+		resultadoFinal.add(resultadoOperacion);
+		resultadoFinal.add(resultado);
+		
+		
+		return resultadoFinal;
 	}
 	
 	@Override
@@ -115,11 +173,13 @@ public class Polinomio
 			
 			
 			//Elimina el 1 deL "1X"
-			if ((mapaIterado.getKey() == 1 && mapaIterado.getValue() == 1))
+			//if ((mapaIterado.getKey() == 1 && mapaIterado.getValue() == 1))
+			if ((mapaIterado.getKey() >= 1 && mapaIterado.getValue() == 1))
 				coeficienteLeido = "";
 
 			//Elimina el 1 deL "-1X"
-			if ((mapaIterado.getKey() == 1 && mapaIterado.getValue() == -1))
+			//if ((mapaIterado.getKey() == 1 && mapaIterado.getValue() == -1))
+			if ((mapaIterado.getKey() >= 1 && mapaIterado.getValue() == -1))
 				coeficienteLeido = "-";
 			
 			//Comprobar si el coeficiente es negativo o no para mostrar su signo.
