@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.BinaryOperator;
 
@@ -38,6 +39,15 @@ public class Polinomio
 		}
 		
 	}
+	
+	public Double evaluatePolinoimo(Double val){
+		Double resultado = 0.0;
+		for(Map.Entry<Integer, Double> i : this.polinomio.entrySet()){
+			resultado += i.getValue() * Math.pow((val), i.getKey());
+		}
+		return resultado;
+	}
+	
 	// Obtener valor de una clave
 	public Double getMonomio(int key) 
 	{
