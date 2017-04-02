@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.BinaryOperator;
@@ -13,9 +14,9 @@ public class Polinomio
 	// HashMap<Exponente , Coeficiente>
 	// Polinomio: combinacion de MONOMIOS
 	HashMap<Integer, Double> polinomio = new HashMap<Integer, Double>();
-
-
 	
+	private int precision = 5; 	//numero de digitos de precisión.
+
 	public HashMap<Integer, Double> getPolinomio() {
 		return polinomio;
 	}
@@ -47,7 +48,7 @@ public class Polinomio
 		}
 		return resultado;
 	}
-	
+
 	// Obtener valor de una clave
 	public Double getMonomio(int key) 
 	{
