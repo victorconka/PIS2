@@ -8,7 +8,7 @@ import polinomio.Polinomio;
  *
  */
 public class InterpolacionLineal {
-	private Polinomio func; 				//polinomio que alberga la funcion
+	private Polinomio polinomio;			//polinomio que alberga la funcion
 	private int precision = 5; 				//numero de digitos de precisión a mostrar.
 	private Double x1, x2;					//valores del intervalo [x1,x2]
 	private Double xR = Double.NaN;			//Variable que almacenara la evaluacion de la ecuacion.
@@ -17,6 +17,7 @@ public class InterpolacionLineal {
 	private Integer it = 0; 				//numero de iteraciónes
 	private Double error = Double.NaN; 		//precision obtenida
 	private int iMax = 40; 					//numero maximo de iteraciónes para el caso de divergencia
+
 	
 	public InterpolacionLineal(){
 		initDefaultFunc();
@@ -49,6 +50,10 @@ public class InterpolacionLineal {
 		this.x2 = x2;
 	}
 	
+	public String getPolinomio(){
+		return this.polinomio.toString();
+	}
+	
 	/**
 	 * Returns an array of both positions [x1,x2]
 	 * @return Double[]{x1,x2}
@@ -58,10 +63,12 @@ public class InterpolacionLineal {
 	}
 	
 	private void verifyPrecision(){
+		//para lograr representacion no cientifica, mostramos numero con ceros a la derecha y los borramos
 		String[] p = ((String.format(Locale.US, "%.32f", this.E)).replaceAll("0+$", "")).split("\\.");
-		
-		if(p[1].length() > this.precision){
-			this.precision = p[1].length();
+		if(p.length>1){
+			if(p[1].length() > this.precision){
+				this.precision = p[1].length();
+			}
 		}
 	}
 	/**
@@ -127,13 +134,33 @@ public class InterpolacionLineal {
 		}
 	}
 	
+	public boolean verificarBolzano(){
+		boolean bolzano = false;
+		
+		if(x1 != null && x2 != null){
+			
+			Double fX1 = this.evaluatePolinoimo(x1);
+			Double fX2 = this.evaluatePolinoimo(x2);
+			
+			if(fX1 < 0 && fX2 > 0){
+				bolzano = true;
+			}
+			if(fX1 > 0 && fX2 < 0){
+				bolzano = true;
+			}
+			
+		}
+		
+		return bolzano;
+	}
 	
 	public String toString(){
 		String ret = "";
-		ret = "It " + it;
-		ret += " [" + this.adaptarPrecision(this.x1) + "," + this.adaptarPrecision(this.x2)+  "]";
+		ret = "Iteraciónes: " + it;
+		ret += "\n Intervalo [" + this.adaptarPrecision(this.x1) + "," + this.adaptarPrecision(this.x2)+  "]";
 		ret += "\n error = " + this.adaptarPrecision(error);
 		ret += "\n Xr = " + this.adaptarPrecision(xR);
+		ret += "\n f(Xr) = " + this.adaptarPrecision(fXr);
 		return ret;
 	}
 	
@@ -153,7 +180,7 @@ public class InterpolacionLineal {
 	 * @return - resultado para dicho punto
 	 */
 	private Double evaluatePolinoimo(Double val){
-		return this.func.evaluatePolinoimo(val);
+		return this.polinomio.evaluatePolinoimo(val);
 	}
 	
 	/**
@@ -161,10 +188,10 @@ public class InterpolacionLineal {
 	 * f(x) = x^5 - x^4 + x^3 - 3
 	 */
 	private void initDefaultFunc(){
-		func = new Polinomio();
-		func.setMonomio(5, 1);
-		func.setMonomio(4, -1);
-		func.setMonomio(3, 1);
-		func.setMonomio(0, -3);
+		polinomio = new Polinomio();
+		polinomio.setMonomio(5, 1);
+		polinomio.setMonomio(4, -1);
+		polinomio.setMonomio(3, 1);
+		polinomio.setMonomio(0, -3);
 	}
 }

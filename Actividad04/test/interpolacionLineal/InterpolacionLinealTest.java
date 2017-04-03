@@ -39,8 +39,7 @@ public class InterpolacionLinealTest extends TestCase {
 		
 		il  = new InterpolacionLineal(1.0,2.0,0.0000001);
 		//precision se ajusta al error
-		assertEquals(il.getPrecision(),7);
-		
+		assertEquals(il.getPrecision(),7);		
 	}
 	
 	public void testToString(){
@@ -48,16 +47,27 @@ public class InterpolacionLinealTest extends TestCase {
 		assertEquals(il.toString().contains("[1.0,2.0]"),true);
 	}
 	
+	public void testBolzano(){
+		il  = new InterpolacionLineal(1.0,2.0,0.0001);
+		assertEquals(il.verificarBolzano(),true);
+		
+		il  = new InterpolacionLineal(2.0,3.0,0.0001);
+		assertEquals(il.verificarBolzano(),false);
+	}
+	
+	public void testGetPolinomio(){
+		il  = new InterpolacionLineal(1.0,2.0,0.0001);
+		assertEquals(il.getPolinomio(),"X^5-X^4+X^3-3");
+	}
+	
 	public void testCalcular(){
 		//cobertura actualizar x1
 		il  = new InterpolacionLineal(1.0,2.0,0.0001);
 		il.calcular();
-		System.out.println(il.toString());
 		
 		//cobertura actualizar x2
 		il  = new InterpolacionLineal(1.0,0.0,0.0001);
 		il.calcular();
-		System.out.println(il.toString());
 		
 		//cobertura 
 		//no se puede alcanzar error 0 porque la raíz es aproximada o imaginaría

@@ -24,7 +24,7 @@ public class Main {
 			System.out.println("Menú de operación:");
 			System.out.println("1- Ejercicio 1.");
 			System.out.println("2- Ejercicio 2.");
-			System.out.println("3- Ejercicio 3");
+			System.out.println("3- Ejercicio 3.");
 			System.out.print("Seleccione operación:");
 			try {	
 				
@@ -35,6 +35,10 @@ public class Main {
 					case 1:
 						System.out.println("***************************************");
 						mainPolinomio.main(args);
+						break;
+					case 3:
+						System.out.println("***************************************");
+						mainInterpolacionLineal.main(args);
 						break;
 					default:
 						System.out.println("Opción incorrecta");
