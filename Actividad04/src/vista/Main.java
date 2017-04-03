@@ -38,7 +38,7 @@ public class Main {
 						break;
 					case 3:
 						System.out.println("***************************************");
-						mainInterpolacionLineal.main(args);
+						mainPolinomio.main(args);
 						break;
 					default:
 						System.out.println("Opción incorrecta");

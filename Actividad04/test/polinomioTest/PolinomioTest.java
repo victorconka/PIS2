@@ -61,7 +61,15 @@ public class PolinomioTest extends TestCase {
 	  assertEquals(polinomioC.toString(), "7X");
   }
 	
-	
+	public void testEvaluarPolinomio(){
+		Polinomio polinomioA = new Polinomio();
+		//Asignamos una ecuacion x^2
+		polinomioA.setMonomio(2, 1);
+		
+		//evaluar la ecuacion
+		assertEquals(polinomioA.evaluatePolinoimo(2.0).equals(4.0),true);
+	}
+  
 	 public void testMultiplicaPorMonomio() 
 	 { 
 		  Polinomio polinomioA = new Polinomio();
