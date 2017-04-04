@@ -42,7 +42,7 @@ public class Main {
 						break;
 					case 3:
 						System.out.println("***************************************");
-						mainPolinomio.main(args);
+						mainInterpolacionLineal.main(args);
 						break;
 					default:
 						System.out.println("Opción incorrecta");
