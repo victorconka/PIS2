@@ -30,7 +30,7 @@ public class RouthHurwitz {
 		}
 	}
 	
-	public void comprobarSistema() {
+	public String comprobarSistema() {
 		inestable = comprobarCasosTriviales();
 		if (!inestable){
 			crearMatriz();
@@ -38,10 +38,10 @@ public class RouthHurwitz {
 			if (!degeneracion)
 				comprobarRaicesPositivas();
 		}
-		mostrarResultado();
+		return mostrarResultado();
 	}
 	
-	private void crearMatriz() {
+	public void crearMatriz() {
 		ArrayList<Double> fila = new ArrayList<Double>();
 		Object[] aux = coeficientes.toArray();		
 		int j = 0;
@@ -140,7 +140,7 @@ public class RouthHurwitz {
 		}
 	}
 		
-	private void mostrarMatriz() {
+	public void mostrarMatriz() {
 		int grado = tamanioCoeficientes - 1;
 		boolean cambiarGrado = true;
 		
@@ -167,7 +167,7 @@ public class RouthHurwitz {
 		}
 	}
 	
-	private void comprobarRaicesPositivas() {
+	public void comprobarRaicesPositivas() {
 		cambioSigno = 0;
 		for (int i = 1; i < tamanioCoeficientes; i++) {
 			if (matriz.get(i).get(0) > 0 && matriz.get(i-1).get(0) < 0) {
@@ -187,7 +187,6 @@ public class RouthHurwitz {
 	public boolean comprobarCasosTriviales() {
 		boolean coefNegativo = false;
 		boolean coefPositivo = false;
-		int coefNegativos = 0;
 		coeficientes = polinomio.getPolinomio().values();
 		tamanioCoeficientes = coeficientes.size();
 		
@@ -196,15 +195,15 @@ public class RouthHurwitz {
 				return true;
 			} else if (coef < 0) {
 				coefNegativo = true;
-				coefNegativos++;
-			} else if (coef > 0) {
+				cambioSigno++;
+			} else {
 				coefPositivo = true;
 			}
 			
 			if (coefNegativo && coefPositivo) return true;
 		}
 		
-		if (coefNegativos == tamanioCoeficientes) {
+		if (cambioSigno == tamanioCoeficientes) {
 			for (Entry<Integer, Double> var : polinomio.getPolinomio().entrySet()) {
 				polinomio.setMonomio(var.getKey(), var.getValue() * -2);
 			}
@@ -213,7 +212,7 @@ public class RouthHurwitz {
 		return false;
 	}
 	
-	private void mostrarResultado() {
+	public String mostrarResultado() {
 		String estado = "";
 		
 		if (inestable) estado = "es inestble --> " + cambioSigno + " raíces positivas (hay " + cambioSigno + " cambios de signo en la primera columna";
@@ -221,19 +220,9 @@ public class RouthHurwitz {
 		else if (criticamenteEstable) estado = "es críticamente estable --> fila cero y no hay raíces positivas";
 		else estado = "es estable --> no hay raíces en semiplano derecho";
 		
-		System.out.println("El sistema " + estado);
-	}
-	
-	public Polinomio getObjetoPolinomio() {
-		return polinomio;
-	}
-	
-	public HashMap<Integer, Double> getPolinomio() {
-		return polinomio.getPolinomio();
-	}
-
-	public void setObjetoPolinomio(Polinomio polinomio) {
-		this.polinomio = polinomio;
+		estado = "El sistema " + estado;
+		System.out.println(estado);
+		return estado;
 	}
 
 }

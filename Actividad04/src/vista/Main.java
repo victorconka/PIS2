@@ -36,6 +36,10 @@ public class Main {
 						System.out.println("***************************************");
 						mainPolinomio.main(args);
 						break;
+					case 2:
+						System.out.println("***************************************");
+						mainRouthHurwithz.main(args);
+						break;
 					case 3:
 						System.out.println("***************************************");
 						mainPolinomio.main(args);
