@@ -73,4 +73,27 @@ public class InterpolacionLinealTest extends TestCase {
 		//no se puede alcanzar error 0 porque la raíz es aproximada o imaginaría
 	}
 	
+	public void testIteraciones(){
+		il  = new InterpolacionLineal(1.0,2.0,0.0001);
+		
+		int n = 100;
+		il.setNumeroIteraciones(n);
+		
+		System.out.println(il.getNumeroIteraciones());
+		assertEquals(il.getNumeroIteraciones().equals(n), true);
+		
+		n = 0;
+		il.setNumeroIteraciones(n);
+		
+		System.out.println(il.getNumeroIteraciones());
+		assertEquals(il.getNumeroIteraciones().equals(n), false);
+		
+		n = -10;
+		il.setNumeroIteraciones(n);
+		
+		System.out.println(il.getNumeroIteraciones());
+		assertEquals(il.getNumeroIteraciones().equals(n), false);
+		
+	}
+	
 }

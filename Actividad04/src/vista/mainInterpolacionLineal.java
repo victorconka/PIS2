@@ -12,6 +12,7 @@ public class mainInterpolacionLineal {
 	public InterpolacionLineal il;
 	private Double a,b;
 	private Double E = Double.MAX_VALUE;
+	private Integer iteraciones = 0;
 	public boolean salir = false;
 	public mainInterpolacionLineal(){
 		il = new InterpolacionLineal();
@@ -48,6 +49,14 @@ public class mainInterpolacionLineal {
 		il.setError(E);
 	}
 	
+	public void leerIteraciones(){
+		System.out.println("Introduzca el numero de iteraciones. Si introduce 0 o un numero negativo, se usara el valor por defecto");
+		iteraciones = this.leerDoble().intValue();
+		if(iteraciones == 0){
+			System.out.println("Se usara el numero de iteraciónes por defecto :" + il.getNumeroIteraciones());
+		}
+		il.setError(E);
+	}
 	
 	/**
 	 * Lee el intervalo [a,b]
@@ -94,6 +103,7 @@ public class mainInterpolacionLineal {
 				System.out.println("el intervalo cumple las condiciónes de Bolzano");
 				System.out.println("Introduzca la exactitud deseada");
 				leerError();
+				leerIteraciones();
 				System.out.println("Valores introducidos correctamente");
 				System.out.println("Resultado de la busqueda de raíz \n");
 				il.calcular();

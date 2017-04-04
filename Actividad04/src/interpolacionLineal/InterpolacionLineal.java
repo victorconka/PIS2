@@ -184,6 +184,21 @@ public class InterpolacionLineal {
 	}
 	
 	/**
+	 * establece el numero de iteraciónes que ha de ejecutar el programa
+	 * @param n
+	 */
+	public void setNumeroIteraciones(int n){
+		
+		if(n < 1){
+			System.out.println("Numero no puede ser negativo");
+		}else{
+			this.iMax = n;
+		}
+	}
+	public Integer getNumeroIteraciones(){
+		return this.iMax;
+	}
+	/**
 	 * Funcion que inicializa la función que se analiza
 	 * f(x) = x^5 - x^4 + x^3 - 3
 	 */
