@@ -114,7 +114,8 @@ public class Polinomio
 		
 		if (polinomioADividir.getMonomio(1) > 1)
 		{
-			Double coeficienteX = polinomioADividir.getMonomio(1) / polinomioADividir.getMonomio(1);
+			//Double coeficienteX = polinomioADividir.getMonomio(1) / polinomioADividir.getMonomio(1);
+			Double coeficienteX = (double) 1;
 			Double coeficienteIndependiente = polinomioADividir.getMonomio(0) / polinomioADividir.getMonomio(1);
 			polinomioADividir.putMonomio(0, coeficienteIndependiente);
 			polinomioADividir.putMonomio(1, coeficienteX);

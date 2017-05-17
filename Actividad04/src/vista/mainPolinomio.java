@@ -42,7 +42,7 @@ public class mainPolinomio {
 				{
 					seleccion =Integer.parseInt(bf.readLine());
 				}
-				catch (Exception e)
+				catch (NumberFormatException e)
 				{
 					throw new Exception("ERROR: No numerico.");
 				}
@@ -75,10 +75,11 @@ public class mainPolinomio {
 							System.out.println("Resto: " + polinomioDivide.get(0));
 						}
 						
-						catch (Exception e)
-					    {
-							throw new Exception("ERROR: Segundo monomio incorrecto. EJ: 'x-2'");
-					    } 
+						catch (Exception e) 
+						{
+							throw new Exception("ERROR: Segundo monomio incorrecto. EJ: 'x-2'" + e);
+						}
+			 
 						
 
 						break;
@@ -158,7 +159,7 @@ public class mainPolinomio {
 				
 				
 			} catch (Exception e) {
-				System.out.println("ERROR: Debe introducir un número real (coeficiente) y un número entero no negativo (exponente)");
+				System.out.println("ERROR: Debe introducir un número real (coeficiente) y un número entero no negativo (exponente)" + e);
 			} 
 		} while (contadorVueltas < 2);
 	}
