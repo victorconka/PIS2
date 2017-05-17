@@ -2,30 +2,41 @@ package vista;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.logging.Logger;
+
 
 import vista.mainPolinomio;
 
+/**
+ * Menu principal
+ * @author Usuario
+ *
+ */
 public class Main {
-
+	
 	/**
+	 * constructor privado
+	 */
+	private Main(){
+	}
+	/**
+	 * menu principal
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+		Logger logger = Logger.getLogger("InfoLogging"); //logger para sustituir syso
+		String line= "***************************************";
 		
-		
-		int seleccion = -1;
+		int seleccion;
 
 		do {
-			System.out.println("***************************************");
-			System.out.println("Menú de operación:");
-			System.out.println("1- Ejercicio 1.");
-			System.out.println("2- Ejercicio 2.");
-			System.out.println("3- Ejercicio 3.");
-			System.out.print("Seleccione operación:");
+			logger.info(line);
+			logger.info("Menú de operación:");
+			logger.info("1- Ejercicio 1.");
+			logger.info("2- Ejercicio 2.");
+			logger.info("3- Ejercicio 3.");
+			logger.info("Seleccione operación:");
 			try {	
 				
 				seleccion =Integer.parseInt(bf.readLine());
@@ -33,25 +44,25 @@ public class Main {
 				switch (seleccion)
 				{
 					case 1:
-						System.out.println("***************************************");
+						logger.info(line);
 						mainPolinomio.main(args);
 						break;
 					case 2:
-						System.out.println("***************************************");
+						logger.info(line);
 						mainRouthHurwithz.main(args);
 						break;
 					case 3:
-						System.out.println("***************************************");
-						mainInterpolacionLineal.main(args);
+						logger.info(line);
+						MainInterpolacionLineal.main(args);
 						break;
 					default:
-						System.out.println("Opción incorrecta");
+						logger.info("Opción incorrecta");
 						break;
 				}
 			}
 			catch (Exception e)
 			{
-				System.out.println("Error");
+				logger.info("Error" + e);
 			}
 		} while (true);
 		

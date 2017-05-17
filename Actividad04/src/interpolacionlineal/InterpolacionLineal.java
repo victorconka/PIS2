@@ -1,6 +1,8 @@
-package interpolacionLineal;
+package interpolacionlineal;
 
 import java.util.Locale;
+import java.util.logging.Logger;
+
 import polinomio.Polinomio;
 /**
  * El numero de decimales que se usan durante las operaciones es 15 (16 se usa para redondeo)
@@ -8,35 +10,46 @@ import polinomio.Polinomio;
  *
  */
 public class InterpolacionLineal {
+	
+	private static Logger logger = Logger.getLogger("InfoLogging"); //logger para sustituir syso
 	private Polinomio polinomio;			//polinomio que alberga la funcion
 	private int precision = 5; 				//numero de digitos de precisión a mostrar.
-	private Double x1, x2;					//valores del intervalo [x1,x2]
+	private Double x1;						//valores del intervalo [x1,x2]
+	private Double x2;	
 	private Double xR = Double.NaN;			//Variable que almacenara la evaluacion de la ecuacion.
 	private Double fXr = Double.NaN;		//evaluación fxR = f(xR)
-	private Double E = Double.NaN;			//Valor de precision
+	private Double ePrecision = Double.NaN;			//Valor de precision
 	private Integer it = 0; 				//numero de iteraciónes
 	private Double error = Double.NaN; 		//precision obtenida
 	private int iMax = 40; 					//numero maximo de iteraciónes para el caso de divergencia
 
-	
+	/**
+	 * Inicializacion por defecto de la clase
+	 */
 	public InterpolacionLineal(){
 		initDefaultFunc();
 	}
-	public InterpolacionLineal(Double x1, Double x2, Double E){
+	/**
+	 * inicializa la clase estableciendo valores:
+	 * @param x1 - valor a la izquierda
+	 * @param x2 - valor a la derecha
+	 * @param errorAdmisible - error admisible
+	 */
+	public InterpolacionLineal(Double x1, Double x2, Double errorAdmisible){
 		initDefaultFunc();
-		this.setParameters(x1, x2, E);
+		this.setParameters(x1, x2, errorAdmisible);
 	}
 	
 	/**
 	 * Establece el error admisible
-	 * @param E - valor del error admisible
+	 * @param errorAdmisible - valor del error admisible
 	 */
-	public void setError(Double E){
-		this.E = Math.abs(E);
+	public void setError(Double errorAdmisible){
+		this.ePrecision = Math.abs(errorAdmisible);
 		this.verifyPrecision();
 	}
 	public Double getError(){
-		return this.E;
+		return this.ePrecision;
 	}
 	
 	/**
@@ -64,11 +77,9 @@ public class InterpolacionLineal {
 	
 	private void verifyPrecision(){
 		//para lograr representacion no cientifica, mostramos numero con ceros a la derecha y los borramos
-		String[] p = ((String.format(Locale.US, "%.32f", this.E)).replaceAll("0+$", "")).split("\\.");
-		if(p.length>1){
-			if(p[1].length() > this.precision){
+		String[] p = ((String.format(Locale.US, "%.32f", this.ePrecision)).replaceAll("0+$", "")).split("\\.");
+		if(p.length>1 && p[1].length() > this.precision){
 				this.precision = p[1].length();
-			}
 		}
 	}
 	/**
@@ -86,11 +97,11 @@ public class InterpolacionLineal {
 	 * Establece el intervalo [x1,x2] y el error admisible
 	 * @param x1 - valor a la izquierda
 	 * @param x2 - valor a la derecha
-	 * @param E - valor del error admisible
+	 * @param errAdmisible - valor del error admisible
 	 */
-	public void setParameters(Double x1, Double x2, Double E){
+	public void setParameters(Double x1, Double x2, Double errAdmisible){
 		this.setIterval(x1, x2);
-		this.setError(E);
+		this.setError(errAdmisible);
 	}
 	
 	/**
@@ -98,42 +109,40 @@ public class InterpolacionLineal {
 	 */
 	public void calcular(){
 		it = 0;
-		Double fX1 = 0.0;
-		Double fX2 = 0.0;
+		Double fX1;
+		Double fX2;
 		error = 0.0;
 		
 		while (it < iMax){
 			fX1 = this.evaluatePolinoimo(this.x1);
 			fX2 = this.evaluatePolinoimo(this.x2);
 			
-			xR = (x2 - ((x2-x1)*fX2) / (fX2-fX1)) ;
+			xR = x2 - ((x2-x1)*fX2) / (fX2-fX1) ;
 
 			fXr = this.evaluatePolinoimo(xR);
 			
 			error = Math.abs(fXr);
-
-			//System.out.println(this.toString());
 			
-			if(error <= E){
-				//System.out.println("Error admisible");
-				break;
+			if(error >= ePrecision){
+				if((fX1*fXr) < 0 ){
+					x2 = xR;
+				}
+				if((fX1*fXr) > 0 ){
+					x1 = xR;
+				}
+				
+				if( Double.compare(fX1*fXr, 0.0) == 0 ){
+					break;
+				}
 			}
-			
-			if((fX1*fXr) <0 ){
-				x2 = xR;
-			}
-			if((fX1*fXr) >0 ){
-				x1 = xR;
-			}
-			if((fX1*fXr) == 0 ){
-				//System.out.println("Raiz en xR");
-				break;
-			}
-			
+					
 			it++;
 		}
 	}
-	
+	/**
+	 * Metodo que verifica si se cumple el teorema del bolzano para los valores x1 y x2
+	 * @return true - se cumple bolzano/false - no se cumple bolzano
+	 */
 	public boolean verificarBolzano(){
 		boolean bolzano = false;
 		
@@ -154,9 +163,9 @@ public class InterpolacionLineal {
 		return bolzano;
 	}
 	
+	@Override
 	public String toString(){
-		String ret = "";
-		ret = "Iteraciónes: " + it;
+		String ret = "Iteraciónes: " + it;
 		ret += "\n Intervalo [" + this.adaptarPrecision(this.x1) + "," + this.adaptarPrecision(this.x2)+  "]";
 		ret += "\n error = " + this.adaptarPrecision(error);
 		ret += "\n Xr = " + this.adaptarPrecision(xR);
@@ -170,8 +179,9 @@ public class InterpolacionLineal {
 	 * @return devuelve valor con precision "precision"
 	 */
 	private Double adaptarPrecision(Double val){
-		val = Double.valueOf(String.format(Locale.US, "%." + this.precision + "f", val));
-		return val;
+		String format = "%." + this.precision + "f";
+		String str = String.format(Locale.US, format, val);
+		return Double.valueOf(str);
 	}
 	
 	/**
@@ -190,7 +200,7 @@ public class InterpolacionLineal {
 	public void setNumeroIteraciones(int n){
 		
 		if(n < 1){
-			System.out.println("Numero no puede ser negativo");
+			logger.info("Numero no puede ser negativo");
 		}else{
 			this.iMax = n;
 		}

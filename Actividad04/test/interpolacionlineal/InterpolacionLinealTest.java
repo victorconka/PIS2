@@ -1,5 +1,6 @@
-package interpolacionLineal;
+package interpolacionlineal;
 
+import interpolacionlineal.InterpolacionLineal;
 import junit.framework.TestCase;
 
 public class InterpolacionLinealTest extends TestCase {
