@@ -3,44 +3,48 @@ package vista;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.*;
 
 import routhHurwitz.RouthHurwitz;
 
 public class mainRouthHurwithz {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		RouthHurwitz rh;
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		int gradoMaximo = 101;
 		double[] coeficientes;
 		int coeficientesLeidos = 0;
-		
-		System.out.println("Introduzca el grado máximo del polinomio");
+		Logger logger = Logger.getLogger(mainRouthHurwithz.class.getName());
+
+		logger.info("Introduzca el grado máximo del polinomio");
 		do {
 			try {
 				gradoMaximo = Integer.parseInt(bf.readLine());
 				if (gradoMaximo < 0) {
-					System.out.println("ERROR: Debe introducir un número entero mayor que 0");
+					logger.severe("ERROR: Debe introducir un número entero mayor que 0");
 				}
 			} catch (NumberFormatException e) {
-				System.out.println("ERROR: Debe introducir un número entero menor o igual que 100");
+				logger.severe("ERROR: Debe introducir un número entero menor o igual que 100");
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.info(e.getMessage());
+				throw e;
 			}
 		} while (gradoMaximo > 100 || gradoMaximo < 0);
 		
 		coeficientes = new double[gradoMaximo + 1];
 		
-		System.out.println("Introduzca los coeficientes de cada término (empezando por el grado más alto)");
+		logger.info("Introduzca los coeficientes de cada término (empezando por el grado más alto)");
 		do {
 			try {				
 				coeficientes[coeficientesLeidos] = Double.parseDouble(bf.readLine());
 				coeficientesLeidos++;
 			} catch (NumberFormatException e) {
-				System.out.println("ERROR: Debe introducir un número real");
+				logger.severe("ERROR: Debe introducir un número real");
 				coeficientesLeidos--;
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.info(e.getMessage());
+				throw e;
 			}
 		} while (coeficientesLeidos < (gradoMaximo + 1));
 		
