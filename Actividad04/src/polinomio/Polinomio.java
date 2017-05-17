@@ -114,7 +114,6 @@ public class Polinomio
 		
 		if (polinomioADividir.getMonomio(1) > 1)
 		{
-			//Double coeficienteX = polinomioADividir.getMonomio(1) / polinomioADividir.getMonomio(1);
 			Double coeficienteX = (double) 1;
 			Double coeficienteIndependiente = polinomioADividir.getMonomio(0) / polinomioADividir.getMonomio(1);
 			polinomioADividir.putMonomio(0, coeficienteIndependiente);
@@ -134,7 +133,6 @@ public class Polinomio
 		// Primera operacion de ruffini 
 		Double resultadoOperacion = terminoIndependienteOpuesto * polinomio.get(ultimaKeyMapa); 
 		
-		//System.out.println("Primera: " + polinomio.get(ultimaKeyMapa) + " Exponente: " + (ultimaKeyMapa-1) );
 
 		resultado.setMonomio(ultimaKeyMapa-1, polinomio.get(ultimaKeyMapa)); 					// Monta Coeficiente
 		
@@ -144,8 +142,7 @@ public class Polinomio
 			// Si es nulo, es decir que no hay clave, no se suma
 			if (polinomio.get(x) != null)
 				resultadoOperacion = resultadoOperacion + polinomio.get(x);
-			
-			//System.out.println("Resultado operacion: " + resultadoOperacion + " Exponente: " + (x-1));
+		
 			
 			// Si se llega al final, no se multiplica mas
 			if (x != 0)
@@ -185,12 +182,10 @@ public class Polinomio
 			
 			
 			//Elimina el 1 deL "1X"
-			//if ((mapaIterado.getKey() == 1 && mapaIterado.getValue() == 1))
 			if ((mapaIterado.getKey() >= 1 && mapaIterado.getValue() == 1))
 				coeficienteLeido = "";
 
 			//Elimina el 1 deL "-1X"
-			//if ((mapaIterado.getKey() == 1 && mapaIterado.getValue() == -1))
 			if ((mapaIterado.getKey() >= 1 && mapaIterado.getValue() == -1))
 				coeficienteLeido = "-";
 			
