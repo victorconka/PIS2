@@ -49,7 +49,7 @@ public class Main {
 						break;
 					case 2:
 						logger.info(line);
-						mainRouthHurwithz.main(args);
+						MainRouthHurwithz.main(args);
 						break;
 					case 3:
 						logger.info(line);
