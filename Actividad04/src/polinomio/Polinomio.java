@@ -3,16 +3,11 @@ package polinomio;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.BinaryOperator;
 
 public class Polinomio 
 {
-	// HashMap<Exponente , Coeficiente>
-	// Polinomio: combinacion de MONOMIOS
 	HashMap<Integer, Double> polinomio = new HashMap<Integer, Double>();
 	
 	private int precision = 5; 	//numero de digitos de precisión.
@@ -114,7 +109,7 @@ public class Polinomio
 		
 		if (polinomioADividir.getMonomio(1) > 1)
 		{
-			Double coeficienteX = polinomioADividir.getMonomio(1) / polinomioADividir.getMonomio(1);
+			Double coeficienteX = (double) 1;
 			Double coeficienteIndependiente = polinomioADividir.getMonomio(0) / polinomioADividir.getMonomio(1);
 			polinomioADividir.putMonomio(0, coeficienteIndependiente);
 			polinomioADividir.putMonomio(1, coeficienteX);
@@ -133,7 +128,6 @@ public class Polinomio
 		// Primera operacion de ruffini 
 		Double resultadoOperacion = terminoIndependienteOpuesto * polinomio.get(ultimaKeyMapa); 
 		
-		//System.out.println("Primera: " + polinomio.get(ultimaKeyMapa) + " Exponente: " + (ultimaKeyMapa-1) );
 
 		resultado.setMonomio(ultimaKeyMapa-1, polinomio.get(ultimaKeyMapa)); 					// Monta Coeficiente
 		
@@ -143,8 +137,7 @@ public class Polinomio
 			// Si es nulo, es decir que no hay clave, no se suma
 			if (polinomio.get(x) != null)
 				resultadoOperacion = resultadoOperacion + polinomio.get(x);
-			
-			//System.out.println("Resultado operacion: " + resultadoOperacion + " Exponente: " + (x-1));
+		
 			
 			// Si se llega al final, no se multiplica mas
 			if (x != 0)
@@ -184,12 +177,10 @@ public class Polinomio
 			
 			
 			//Elimina el 1 deL "1X"
-			//if ((mapaIterado.getKey() == 1 && mapaIterado.getValue() == 1))
 			if ((mapaIterado.getKey() >= 1 && mapaIterado.getValue() == 1))
 				coeficienteLeido = "";
 
 			//Elimina el 1 deL "-1X"
-			//if ((mapaIterado.getKey() == 1 && mapaIterado.getValue() == -1))
 			if ((mapaIterado.getKey() >= 1 && mapaIterado.getValue() == -1))
 				coeficienteLeido = "-";
 			
