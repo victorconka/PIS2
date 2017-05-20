@@ -89,7 +89,10 @@ public class mainPolinomio {
 		
 		 
 	}
-	
+	/**
+	 * pide introducir ruffini
+	 * @param ruffini
+	 */
 	public static void introducirPolinomio(Boolean ruffini)
 	{
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
