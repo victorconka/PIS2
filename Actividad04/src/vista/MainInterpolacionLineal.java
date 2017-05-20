@@ -16,10 +16,7 @@ public class MainInterpolacionLineal {
 	
 	private static Logger logger = Logger.getLogger("InfoLogging"); //logger para sustituir syso
 	private InterpolacionLineal il;
-	private Double a; //valores del intervalo a,b
-	private Double b;
 	private Double error = Double.MAX_VALUE;
-	private Integer iteraciones = 0;
 	private boolean salir = false;
 	
 	/**
@@ -29,7 +26,11 @@ public class MainInterpolacionLineal {
 		il = new InterpolacionLineal();
 	}
 	
-	private Double leerDoble(){
+	/**
+	 * lee doble por teclado
+	 * @return double
+	 */
+	private static Double leerDoble(){
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		boolean val = false;
 		Double value = 0.0;
@@ -62,8 +63,9 @@ public class MainInterpolacionLineal {
 	 * Pedir numero de iteraciones
 	 */
 	public void leerIteraciones(){
+		
 		logger.info("Introduzca el numero de iteraciones. Si introduce 0 o un numero negativo, se usara el valor por defecto");
-		iteraciones = this.leerDoble().intValue();
+		Integer iteraciones = this.leerDoble().intValue();
 		if(iteraciones == 0){
 			logger.info("Se usara el numero de iteraciónes por defecto :" + il.getNumeroIteraciones());
 		}
@@ -75,9 +77,9 @@ public class MainInterpolacionLineal {
 	 */
 	public void leerIntervalo(){
 		logger.info("Introduzca el valor a");
-		a = this.leerDoble();
+		Double a = this.leerDoble();
 		logger.info("Introduzca el valor b");
-		b = this.leerDoble();
+		Double b = this.leerDoble();
 		if(a.equals(b) || a > b){
 			if(a.equals(b)){
 				salir = true;

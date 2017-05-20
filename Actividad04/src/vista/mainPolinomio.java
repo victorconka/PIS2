@@ -1,8 +1,8 @@
 package vista;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import polinomio.Polinomio;
 
@@ -13,30 +13,22 @@ public class mainPolinomio {
 	 * @param args
 	 */
 	static Polinomio[] totalPolinomios = new Polinomio[2];
-	
+	private static Logger logger = Logger.getLogger("InfoLogging"); //logger para sustituir syso
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		//Polinomio polinomioA = new Polinomio();
-		//Polinomio polinomioB = new Polinomio();
-		
-		
-		
-		//totalPolinomios.add(new Polinomio());
-		//totalPolinomios.add(new Polinomio());
-		
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		
 		
 		int seleccion = -1;
 		
-		System.out.println("Menú de operación:");
-		System.out.println("0- Suma de expresiones.");
-		System.out.println("1- Producto de expresiones.");
-		System.out.println("2- Divisón método de Ruffini");
+		logger.info("Menú de operación:");
+		logger.info("0- Suma de expresiones.");
+		logger.info("1- Producto de expresiones.");
+		logger.info("2- Divisón método de Ruffini");
 		
 		
 		do {
-			System.out.print("Seleccione operación:");
+			logger.info("Seleccione operación:");
 			try {	
 				try
 				{
@@ -44,7 +36,7 @@ public class mainPolinomio {
 				}
 				catch (Exception e)
 				{
-					throw new Exception("ERROR: No numerico.");
+					throw new Exception("ERROR: No numerico." + e);
 				}
 				
 				if (seleccion < 0 || seleccion > 2) throw new ArithmeticException();
@@ -53,15 +45,15 @@ public class mainPolinomio {
 				{
 					case 0:
 						introducirPolinomio(false);
-						System.out.println("Vamos a ver el polinomio: " );
-						System.out.println(totalPolinomios[1]);
+						logger.info("Vamos a ver el polinomio: " );
+						logger.info(String.valueOf(totalPolinomios[1]));
 						Polinomio polinomioSuma = totalPolinomios[0].sumaPolinomio(totalPolinomios[1]);
-						System.out.println("Resultado: " + polinomioSuma.toString());
+						logger.info("Resultado: " + polinomioSuma.toString());
 						break;
 					case 1:
 						introducirPolinomio(false);
 						Polinomio polinomioMultiplica = totalPolinomios[0].multiplicaPolinomio(totalPolinomios[1]);
-						System.out.println("Resultado: " + polinomioMultiplica.toString());
+						logger.info("Resultado: " + polinomioMultiplica.toString());
 						break;
 					case 2:
 						introducirPolinomio(true);
@@ -69,15 +61,15 @@ public class mainPolinomio {
 						try
 						{
 							ArrayList polinomioDivide = totalPolinomios[0].dividePolinomio(totalPolinomios[1]);
-							System.out.println("Polinomio1: " + totalPolinomios[0]);
-							System.out.println("Polinomio2: " + totalPolinomios[1]);
-							System.out.println("Cociente: " + polinomioDivide.get(1));
-							System.out.println("Resto: " + polinomioDivide.get(0));
+							logger.info("Polinomio1: " + totalPolinomios[0]);
+							logger.info("Polinomio2: " + totalPolinomios[1]);
+							logger.info("Cociente: " + polinomioDivide.get(1));
+							logger.info("Resto: " + polinomioDivide.get(0));
 						}
 						
 						catch (Exception e)
 					    {
-							throw new Exception("ERROR: Segundo monomio incorrecto. EJ: 'x-2'");
+							throw new Exception("ERROR: Segundo monomio incorrecto. EJ: 'x-2'" + e);
 					    } 
 						
 
@@ -88,7 +80,7 @@ public class mainPolinomio {
 				
 				
 			} catch (Exception e) {
-				System.out.println(e);
+				logger.info("Error: " +e);
 			} 
 		} while (seleccion < 0 || seleccion > 2);		
 		
@@ -106,14 +98,12 @@ public class mainPolinomio {
 		Double coeficiente;
 		int exponente;
 		int contadorVueltas = 0;
-		
-		//totalPolinomios.add(new Polinomio());
-		
+				
 		Polinomio polinomio = new Polinomio();
 		
-		System.out.println("Introduzca polinomio:");
+		logger.info("Introduzca polinomio:");
 		do {
-			System.out.print("Introduzca monomio (coeficiente exponente) EJ: '1 1' -> 'X' : ");
+			logger.info("Introduzca monomio (coeficiente exponente) EJ: '1 1' -> 'X' : ");
 			try {				
 				linea = bf.readLine();
 				
@@ -131,13 +121,13 @@ public class mainPolinomio {
 						if(polinomio.getPolinomio().size() > 2)
 						{
 							polinomio = new Polinomio();
-							System.out.println("Segunda expresion incorrecta. EJ: 'x-2' ");
+							logger.info("Segunda expresion incorrecta. EJ: 'x-2' ");
 						}
 						else
 						{
 							totalPolinomios[contadorVueltas] = polinomio;
 							contadorVueltas++;
-							System.out.println("Introduccion de polinomio finalizada.");
+							logger.info("Introduccion de polinomio finalizada.");
 						}
 						
 					}
@@ -146,7 +136,7 @@ public class mainPolinomio {
 						totalPolinomios[contadorVueltas] = polinomio;
 						polinomio = new Polinomio();
 						contadorVueltas++;
-						System.out.println("Introduccion de polinomio finalizada.");
+						logger.info("Introduccion de polinomio finalizada.");
 					}
 				}
 				else
@@ -158,7 +148,7 @@ public class mainPolinomio {
 				
 				
 			} catch (Exception e) {
-				System.out.println("ERROR: Debe introducir un número real (coeficiente) y un número entero no negativo (exponente)");
+				logger.info("ERROR: Debe introducir un número real (coeficiente) y un número entero no negativo (exponente)" + e);
 			} 
 		} while (contadorVueltas < 2);
 	}
